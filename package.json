@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "crypto": "^1.0.1",
+    "node-fetch": "^3.3.2",
+    "razorpay": "^2.9.6",
+    "sqlite3": "^5.1.7"
+  }
+}

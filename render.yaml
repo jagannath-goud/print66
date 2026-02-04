@@ -1,0 +1,34 @@
+# render.yaml
+# Blueprint for deploying the Print66 backend on Render.
+
+services:
+  - type: web # Specifies a web service
+    name: print66-backend
+    runtime: node # Specifies the runtime environment
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME # REPLACE with your repository URL
+    region: singapore # Or choose a region closer to you, e.g., ohio (US)
+    plan: free # Use Render's free tier
+    rootDir: ./print66/backend # The backend code is in this subdirectory
+    
+    # Build and start commands
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    
+    # Environment variables
+    # NOTE: Add your secrets (RAZORPAY keys, etc.) directly in the Render dashboard.
+    # Do NOT add them here.
+    envVars:
+      - key: NODE_VERSION
+        value: "20.10.0" # Match the Node.js version
+      - key: FRONTEND_URL
+        value: "https://your-frontend-url.onrender.com" # REPLACE with your deployed frontend URL
+      - from:
+          - key: RENDER_EXTERNAL_URL
+            name: BACKEND_URL # Expose Render's URL as BACKEND_URL
+            
+    # Persistent disk for SQLite database
+    # This ensures your print66.db and vprint.db files are not lost on restarts.
+    disk:
+      name: sqlite-data
+      mountPath: /app/print66/backend/ # Mount at the backend root
+      sizeGB: 1
